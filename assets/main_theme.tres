@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://c5pu8enid6enq"]
+
+[ext_resource type="StyleBox" uid="uid://67xiv8gum233" path="res://assets/main_theme/scroll_container_box.tres" id="1_01ix6"]
+[ext_resource type="FontFile" uid="uid://csk1fp5k1w6ge" path="res://assets/ft88-serif/FT88-Serif.otf" id="2_gmjs3"]
+
+[resource]
+default_font = ExtResource("2_gmjs3")
+GridContainer/constants/h_separation = 2
+GridContainer/constants/v_separation = 2
+ScrollContainer/styles/panel = ExtResource("1_01ix6")

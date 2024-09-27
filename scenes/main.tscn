@@ -1,0 +1,224 @@
+[gd_scene load_steps=13 format=3 uid="uid://bn6284h18tsf4"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_i7oqg"]
+[ext_resource type="Theme" uid="uid://c5pu8enid6enq" path="res://assets/main_theme.tres" id="2_drmi1"]
+[ext_resource type="Texture2D" uid="uid://c27oj6wku4ldr" path="res://assets/start_point.png" id="2_lr5qg"]
+[ext_resource type="Theme" uid="uid://ds2ry6gwmox0v" path="res://assets/menu_theme.tres" id="3_1q6as"]
+[ext_resource type="Texture2D" uid="uid://vlc51y6a2pud" path="res://assets/buttons/rotate_left_button.png" id="3_7qv00"]
+[ext_resource type="PackedScene" uid="uid://b2j50sxhgkdr7" path="res://scenes/new_menu.tscn" id="4_55uft"]
+[ext_resource type="Texture2D" uid="uid://ds56marjilmui" path="res://assets/buttons/rotate_right_button.png" id="4_ixecf"]
+[ext_resource type="Texture2D" uid="uid://bdkixrf7u8lg1" path="res://assets/buttons/flip_hori_button.png" id="5_81onh"]
+[ext_resource type="Texture2D" uid="uid://d4n0e7cs4283m" path="res://assets/buttons/flip_vert_button.png" id="6_pxn08"]
+[ext_resource type="Texture2D" uid="uid://riuc8b7x47p1" path="res://assets/buttons/menu_button.png" id="7_3fcvg"]
+[ext_resource type="Texture2D" uid="uid://drelm5jvh45b8" path="res://assets/buttons/drop_button.png" id="7_wdb3a"]
+[ext_resource type="Texture2D" uid="uid://g0abqx7eix3k" path="res://assets/buttons/score_button.png" id="8_hcdhq"]
+
+[node name="Main" type="Control" node_paths=PackedStringArray("toolbox", "startpoint_button", "puzzle_container", "score_label", "new_menu", "hold_timer")]
+process_mode = 1
+texture_filter = 1
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_drmi1")
+script = ExtResource("1_i7oqg")
+toolbox = NodePath("MainContainer/ToolScroller/Toolbox")
+startpoint_button = NodePath("MainContainer/ToolScroller/Toolbox/StartPointButton")
+puzzle_container = NodePath("MainContainer/PuzzleContainer")
+score_label = NodePath("TopBarContainer/ScoreLabel")
+new_menu = NodePath("NewMenu")
+hold_timer = NodePath("HoldTimer")
+
+[node name="HoldTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="TopBarContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 0.0888889
+size_flags_vertical = 3
+theme = ExtResource("3_1q6as")
+metadata/_edit_use_anchors_ = true
+
+[node name="TitleLabel" type="Label" parent="TopBarContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "PentominoPathPuzzle"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="TopBarContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = " Current Score:"
+vertical_alignment = 1
+
+[node name="RotateLeft" type="Button" parent="TopBarContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Rotate Held Piece Left"
+focus_neighbor_right = NodePath("../RotateRight")
+focus_next = NodePath("../RotateRight")
+
+[node name="Sprite2D" type="Sprite2D" parent="TopBarContainer/RotateLeft"]
+z_index = -1
+scale = Vector2(2, 2)
+texture = ExtResource("3_7qv00")
+centered = false
+offset = Vector2(1, 1)
+
+[node name="RotateRight" type="Button" parent="TopBarContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Rotate Held Piece Right"
+focus_neighbor_left = NodePath("../RotateLeft")
+focus_neighbor_right = NodePath("../FlipX")
+focus_next = NodePath("../FlipX")
+focus_previous = NodePath("../RotateLeft")
+
+[node name="Sprite2D" type="Sprite2D" parent="TopBarContainer/RotateRight"]
+z_index = -1
+scale = Vector2(2, 2)
+texture = ExtResource("4_ixecf")
+centered = false
+offset = Vector2(1, 1)
+
+[node name="FlipX" type="Button" parent="TopBarContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Flip Piece Horizontally"
+focus_neighbor_left = NodePath("../RotateRight")
+focus_neighbor_right = NodePath("../FlipY")
+focus_next = NodePath("../FlipY")
+focus_previous = NodePath("../RotateRight")
+
+[node name="Sprite2D" type="Sprite2D" parent="TopBarContainer/FlipX"]
+z_index = -1
+scale = Vector2(2, 2)
+texture = ExtResource("5_81onh")
+centered = false
+offset = Vector2(1, 1)
+
+[node name="FlipY" type="Button" parent="TopBarContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Flip Piece Vertically"
+focus_neighbor_left = NodePath("../FlipX")
+focus_neighbor_right = NodePath("../Drop")
+focus_next = NodePath("../Drop")
+focus_previous = NodePath("../FlipX")
+
+[node name="Sprite2D" type="Sprite2D" parent="TopBarContainer/FlipY"]
+z_index = -1
+scale = Vector2(2, 2)
+texture = ExtResource("6_pxn08")
+centered = false
+offset = Vector2(1, 1)
+
+[node name="Drop" type="Button" parent="TopBarContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Drop Held Piece"
+focus_neighbor_left = NodePath("../FlipY")
+focus_neighbor_right = NodePath("../Score")
+focus_next = NodePath("../Score")
+focus_previous = NodePath("../FlipY")
+
+[node name="Sprite2D" type="Sprite2D" parent="TopBarContainer/Drop"]
+z_index = -1
+scale = Vector2(2, 2)
+texture = ExtResource("7_wdb3a")
+centered = false
+offset = Vector2(1, 1)
+
+[node name="Score" type="Button" parent="TopBarContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Score Current Path"
+focus_neighbor_left = NodePath("../Drop")
+focus_neighbor_right = NodePath("../Menu")
+focus_next = NodePath("../Menu")
+focus_previous = NodePath("../Drop")
+
+[node name="Sprite2D" type="Sprite2D" parent="TopBarContainer/Score"]
+z_index = -1
+scale = Vector2(2, 2)
+texture = ExtResource("8_hcdhq")
+centered = false
+offset = Vector2(1, 1)
+
+[node name="Menu" type="Button" parent="TopBarContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+tooltip_text = "Open New Board Menu"
+focus_neighbor_left = NodePath("../FlipY")
+focus_previous = NodePath("../Score")
+
+[node name="Sprite2D" type="Sprite2D" parent="TopBarContainer/Menu"]
+z_index = -1
+scale = Vector2(2, 2)
+texture = ExtResource("7_3fcvg")
+centered = false
+offset = Vector2(1, 1)
+
+[node name="MainContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+anchor_top = 0.0888889
+anchor_right = 1.0
+anchor_bottom = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="PuzzleContainer" type="Control" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="ToolScroller" type="ScrollContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(336, 0)
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Toolbox" type="GridContainer" parent="MainContainer/ToolScroller"]
+layout_mode = 2
+columns = 2
+
+[node name="StartPointButton" type="Button" parent="MainContainer/ToolScroller/Toolbox"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StartPointTexture" type="TextureRect" parent="MainContainer/ToolScroller/Toolbox/StartPointButton"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 48.0
+offset_right = 112.0
+offset_bottom = 112.0
+texture = ExtResource("2_lr5qg")
+
+[node name="NewMenu" parent="." node_paths=PackedStringArray("main_node") instance=ExtResource("4_55uft")]
+process_mode = 3
+layout_mode = 1
+main_node = NodePath("..")
+
+[connection signal="timeout" from="HoldTimer" to="." method="_on_object_held"]
+[connection signal="pressed" from="TopBarContainer/RotateLeft" to="." method="_on_rotate_piece_left_pressed"]
+[connection signal="pressed" from="TopBarContainer/RotateRight" to="." method="_on_rotate_piece_right_pressed"]
+[connection signal="pressed" from="TopBarContainer/FlipX" to="." method="_on_flip_piece_hori_pressed"]
+[connection signal="pressed" from="TopBarContainer/FlipY" to="." method="_on_flip_piece_vert_pressed"]
+[connection signal="pressed" from="TopBarContainer/Drop" to="." method="_on_drop_piece_pressed"]
+[connection signal="pressed" from="TopBarContainer/Score" to="." method="_on_score_pressed"]
+[connection signal="pressed" from="TopBarContainer/Menu" to="." method="_on_menu_pressed"]
+[connection signal="button_down" from="MainContainer/ToolScroller/Toolbox/StartPointButton" to="." method="_on_start_point_selected"]
+[connection signal="button_up" from="MainContainer/ToolScroller/Toolbox/StartPointButton" to="." method="_on_button_release"]

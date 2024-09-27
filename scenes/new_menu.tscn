@@ -1,0 +1,273 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2j50sxhgkdr7"]
+
+[ext_resource type="Texture2D" uid="uid://bpbclome8jjew" path="res://assets/cells/Blank.png" id="1_1kdhr"]
+[ext_resource type="Texture2D" uid="uid://dkb1ukuqos6xx" path="res://assets/cells/Bevel.png" id="1_5bt2f"]
+[ext_resource type="Script" path="res://scripts/new_menu.gd" id="1_o45lq"]
+[ext_resource type="Theme" uid="uid://c5pu8enid6enq" path="res://assets/main_theme.tres" id="1_tkfkf"]
+[ext_resource type="Texture2D" uid="uid://b28gtswcapk7e" path="res://assets/cells/Bubbles.png" id="2_ar6mn"]
+[ext_resource type="Texture2D" uid="uid://bdthr6m8blocv" path="res://assets/cells/Check.png" id="3_b4rbx"]
+
+[node name="NewMenu" type="Control" node_paths=PackedStringArray("width_edit", "height_edit", "credits_panel")]
+process_mode = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o45lq")
+width_edit = NodePath("MenuPanel/MenuContainer/GridContainer/InputContainer/WidthEdit")
+height_edit = NodePath("MenuPanel/MenuContainer/GridContainer/InputContainer/HeightEdit")
+credits_panel = NodePath("CreditsPanel")
+
+[node name="MenuPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+
+[node name="MenuContainer" type="VBoxContainer" parent="MenuPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -79.5
+offset_right = 150.0
+offset_bottom = 79.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="HBoxContainer" parent="MenuPanel/MenuContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="GridLabel" type="Label" parent="MenuPanel/MenuContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+theme = ExtResource("1_tkfkf")
+text = "Grid Size:"
+vertical_alignment = 1
+
+[node name="InputContainer" type="HBoxContainer" parent="MenuPanel/MenuContainer/GridContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="WidthEdit" type="LineEdit" parent="MenuPanel/MenuContainer/GridContainer/InputContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "The number of cells wide the grid will be. Within 5-20, inclusive."
+focus_neighbor_right = NodePath("../HeightEdit")
+focus_neighbor_bottom = NodePath("../../../ModeContainer/ModeSelect")
+focus_next = NodePath("../HeightEdit")
+text = "5"
+placeholder_text = "Width"
+alignment = 1
+max_length = 2
+virtual_keyboard_type = 2
+
+[node name="X" type="Label" parent="MenuPanel/MenuContainer/GridContainer/InputContainer"]
+layout_mode = 2
+text = "X"
+horizontal_alignment = 1
+
+[node name="HeightEdit" type="LineEdit" parent="MenuPanel/MenuContainer/GridContainer/InputContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "The number of cells tall the grid will be. Within 5-20, inclusive."
+focus_neighbor_left = NodePath("../WidthEdit")
+focus_neighbor_bottom = NodePath("../../../ModeContainer/ModeSelect")
+focus_next = NodePath("../../../ModeContainer/ModeSelect")
+focus_previous = NodePath("../WidthEdit")
+text = "5"
+placeholder_text = "Height"
+alignment = 1
+max_length = 2
+virtual_keyboard_type = 2
+
+[node name="ModeContainer" type="HBoxContainer" parent="MenuPanel/MenuContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ModeLabel" type="Label" parent="MenuPanel/MenuContainer/ModeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = "Game Mode:"
+vertical_alignment = 1
+
+[node name="ModeSelect" type="OptionButton" parent="MenuPanel/MenuContainer/ModeContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Set a Game Mode"
+focus_neighbor_top = NodePath("../../GridContainer/InputContainer/HeightEdit")
+focus_neighbor_bottom = NodePath("../../CellContainer/Blank")
+focus_next = NodePath("../../CellContainer/Blank")
+focus_previous = NodePath("../../GridContainer/InputContainer/HeightEdit")
+alignment = 1
+selected = 0
+item_count = 3
+popup/item_0/text = "Classic"
+popup/item_1/text = "Single"
+popup/item_1/id = 1
+popup/item_2/text = "Freestyle"
+popup/item_2/id = 2
+
+[node name="CellContainer" type="HBoxContainer" parent="MenuPanel/MenuContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+alignment = 1
+
+[node name="Blank" type="Button" parent="MenuPanel/MenuContainer/CellContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_top = NodePath("../../ModeContainer/ModeSelect")
+focus_neighbor_right = NodePath("../Bevel")
+focus_neighbor_bottom = NodePath("../../Generate")
+focus_next = NodePath("../Bevel")
+focus_previous = NodePath("../../ModeContainer/ModeSelect")
+text = "Blank"
+icon = ExtResource("1_1kdhr")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Bevel" type="Button" parent="MenuPanel/MenuContainer/CellContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Blank")
+focus_neighbor_top = NodePath("../../ModeContainer/ModeSelect")
+focus_neighbor_right = NodePath("../Bubbles")
+focus_neighbor_bottom = NodePath("../../Generate")
+focus_next = NodePath("../Bubbles")
+focus_previous = NodePath("../Blank")
+text = "Bevel"
+icon = ExtResource("1_5bt2f")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Bubbles" type="Button" parent="MenuPanel/MenuContainer/CellContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Bevel")
+focus_neighbor_top = NodePath("../../ModeContainer/ModeSelect")
+focus_neighbor_right = NodePath("../Check")
+focus_neighbor_bottom = NodePath("../../Generate")
+focus_next = NodePath("../Check")
+focus_previous = NodePath("../Bevel")
+text = "Bubbles"
+icon = ExtResource("2_ar6mn")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Check" type="Button" parent="MenuPanel/MenuContainer/CellContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Bubbles")
+focus_neighbor_top = NodePath("../../ModeContainer/ModeSelect")
+focus_neighbor_bottom = NodePath("../../Generate")
+focus_next = NodePath("../../Generate")
+focus_previous = NodePath("../Bubbles")
+text = "Check"
+icon = ExtResource("3_b4rbx")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Generate" type="Button" parent="MenuPanel/MenuContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../CellContainer/Check")
+focus_previous = NodePath("../CellContainer/Check")
+text = "Start Puzzling"
+
+[node name="Credits" type="Button" parent="MenuPanel/MenuContainer"]
+layout_mode = 2
+text = "Credits & Licenses"
+
+[node name="CloseButton" type="Button" parent="MenuPanel"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.0444444
+anchor_right = 0.975
+anchor_bottom = 0.0888889
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Line2D" type="Line2D" parent="MenuPanel/CloseButton"]
+points = PackedVector2Array(0, 0, 32, 32)
+width = 2.0
+
+[node name="Line2D2" type="Line2D" parent="MenuPanel/CloseButton"]
+points = PackedVector2Array(32, 0, 0, 32)
+width = 2.0
+
+[node name="CreditsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CreditsDisplay" type="RichTextLabel" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.21875
+anchor_top = 0.166667
+anchor_right = 0.78125
+anchor_bottom = 0.833333
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+bbcode_enabled = true
+text = "Concept by Deckard, in his [color=#BB0000][url=https://www.youtube.com/watch?v=LPDAzHpSyAo]Pentomino Facts Video[/url][/color].
+
+FT88-serif is part of the Degheest Font Set, by Ange Degheest, Camille Depalle, Eugénie Bidaut, Luna Delabre, Mandy Elbé, May Jolivet, Oriane Charvieux, Benjamin Gomez, Justine Herbel. Distributed by [color=#BB0000][url=https://velvetyne.fr]velvetyne.fr[/url][/color].
+
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="CloseCreditsButton" type="Button" parent="CreditsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.0444444
+anchor_right = 0.975
+anchor_bottom = 0.0888889
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Line2D" type="Line2D" parent="CreditsPanel/CloseCreditsButton"]
+points = PackedVector2Array(0, 0, 32, 32)
+width = 2.0
+
+[node name="Line2D2" type="Line2D" parent="CreditsPanel/CloseCreditsButton"]
+points = PackedVector2Array(32, 0, 0, 32)
+width = 2.0
+
+[connection signal="focus_exited" from="MenuPanel/MenuContainer/GridContainer/InputContainer/WidthEdit" to="." method="grid_input"]
+[connection signal="focus_exited" from="MenuPanel/MenuContainer/GridContainer/InputContainer/HeightEdit" to="." method="grid_input"]
+[connection signal="item_selected" from="MenuPanel/MenuContainer/ModeContainer/ModeSelect" to="." method="set_gamemode"]
+[connection signal="pressed" from="MenuPanel/MenuContainer/CellContainer/Blank" to="." method="set_texture" binds= [0]]
+[connection signal="pressed" from="MenuPanel/MenuContainer/CellContainer/Bevel" to="." method="set_texture" binds= [1]]
+[connection signal="pressed" from="MenuPanel/MenuContainer/CellContainer/Bubbles" to="." method="set_texture" binds= [2]]
+[connection signal="pressed" from="MenuPanel/MenuContainer/CellContainer/Check" to="." method="set_texture" binds= [3]]
+[connection signal="pressed" from="MenuPanel/MenuContainer/Generate" to="." method="start_game"]
+[connection signal="pressed" from="MenuPanel/MenuContainer/Credits" to="." method="toggle_credits"]
+[connection signal="pressed" from="MenuPanel/CloseButton" to="." method="hide_menu"]
+[connection signal="meta_clicked" from="CreditsPanel/CreditsDisplay" to="." method="_on_credits_display_link_clicked"]
+[connection signal="pressed" from="CreditsPanel/CloseCreditsButton" to="." method="toggle_credits"]
